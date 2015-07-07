@@ -2,7 +2,8 @@ class Survey::Answer < ActiveRecord::Base
 
   self.table_name = "survey_answers"
 
-  acceptable_attributes :attempt, :option, :correct, :option_id, :question, :question_id
+  acceptable_attributes :attempt, :option, :correct, :option_id, :question,
+    :question_id, :text
 
   # associations
   belongs_to :attempt

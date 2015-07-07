@@ -5,9 +5,9 @@ class CreateSurvey < ActiveRecord::Migration
     create_table :survey_surveys do |t|
       t.string  :name
       t.text    :description
-      t.integer :attempts_number, :default => 0
-      t.boolean :finished, :default => false
-      t.boolean :active, :default => false
+      t.integer :attempts_number, default: 0
+      t.boolean :finished, default: false
+      t.boolean :active, default: false
 
       t.timestamps
     end
@@ -15,13 +15,14 @@ class CreateSurvey < ActiveRecord::Migration
     create_table :survey_questions do |t|
       t.integer :survey_id
       t.string  :text
+      t.integer :question_type_id
 
       t.timestamps
     end
 
     create_table :survey_options do |t|
       t.integer :question_id
-      t.integer :weight, :default => 0
+      t.integer :weight, default: 0
       t.string :text
       t.boolean :correct
 
@@ -30,7 +31,7 @@ class CreateSurvey < ActiveRecord::Migration
 
     # survey answer logic
     create_table :survey_attempts do |t|
-      t.belongs_to :participant, :polymorphic => true
+      t.belongs_to :participant, polymorphic: true
       t.integer    :survey_id
       t.boolean    :winner
       t.integer    :score
@@ -38,6 +39,7 @@ class CreateSurvey < ActiveRecord::Migration
 
     create_table :survey_answers do |t|
       t.integer    :attempt_id
+      t.string     :text
       t.integer    :question_id
       t.integer    :option_id
       t.boolean    :correct
