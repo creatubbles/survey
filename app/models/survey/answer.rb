@@ -11,11 +11,13 @@ class Survey::Answer < ActiveRecord::Base
   belongs_to :question
 
   # validations
-  validates :option_id, :question_id, :presence => true
-  validates :option_id, :uniqueness => { :scope => [:attempt_id, :question_id] }
+  validates :option_id, uniqueness: { scope: [:attempt_id, :question_id] }
 
   # callbacks
-  after_create :characterize_answer
+  after_save :characterize_answer, if: ->(a){ a.option.present? }
+
+  #scopes
+  scope :completed, -> { where.not(option_id: nil) }
 
   def value
     points = (self.option.nil? ? Survey::Option.find(option_id) : self.option).weight
@@ -29,7 +31,7 @@ class Survey::Answer < ActiveRecord::Base
   private
 
   def characterize_answer
-    update_attribute(:correct, option.correct?)
+    update_column(:correct, option.correct?)
   end
 
 end

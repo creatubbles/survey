@@ -3,7 +3,7 @@ class Survey::Attempt < ActiveRecord::Base
   self.table_name = "survey_attempts"
 
   acceptable_attributes :winner, :survey, :survey_id,
-    :participant,
+    :participant, :creator_manager_id,
     :participant_id,
     :answers_attributes => ::Survey::Answer::AccessibleAttributes
 
@@ -25,7 +25,7 @@ class Survey::Attempt < ActiveRecord::Base
   scope :for_survey, ->(survey) { where(:survey_id => survey.id) }
   scope :exclude_survey,  ->(survey) { where("NOT survey_id = #{survey.id}") }
   scope :for_participant, ->(participant) {
-    where(:participant_id => participant.try(:id), :participant_type => participant.class.base_class)
+    where(participant_id: participant.try(:id), participant_type: participant.class.base_class)
   }
 
   # callbacks
