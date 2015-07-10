@@ -17,7 +17,7 @@ class Survey::Answer < ActiveRecord::Base
   after_save :characterize_answer, if: ->(a){ a.option.present? }
 
   #scopes
-  scope :completed, -> { where.not(option_id: nil) }
+  scope :completed, -> { where("option_id IS NOT NULL OR text <> ''") }
 
   def value
     points = (self.option.nil? ? Survey::Option.find(option_id) : self.option).weight
