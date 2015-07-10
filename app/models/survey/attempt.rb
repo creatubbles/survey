@@ -16,7 +16,7 @@ class Survey::Attempt < ActiveRecord::Base
 
   # validations
   validates :participant_id, :participant_type, :presence => true
-  validate :check_number_of_attempts_by_survey
+  # validate :check_number_of_attempts_by_survey
 
   #scopes
   scope :wins,   -> { where(:winner => true) }
