@@ -4,7 +4,8 @@ class Survey::QuestionType
                        text: 3,
                        number: 4,
                        select: 5,
-                       textarea: 6
+                       textarea: 6,
+                       date: 7
                     }
 
   class << self
